@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="no">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>BYGGSVAR - Premium Side Panel Concept</title>
+        <style>
+            /* Base Resets */
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+                font-family:
+                    "Inter",
+                    system-ui,
+                    -apple-system,
+                    sans-serif;
+            }
+
+            body {
+                background-color: #0f172a;
+                color: #f8fafc;
+                display: flex;
+                height: 100vh;
+                overflow: hidden;
+            }
+
+            /* App Layout Wrapper */
+            .app-wrapper {
+                display: flex;
+                width: 100%;
+                height: 100%;
+            }
+
+            /* Chat Section */
+            .chat-section {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                position: relative;
+                transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+
+            /* Header */
+            header {
+                background-color: #0f172a;
+                padding: 16px 32px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                border-bottom: 1px solid #1e293b;
+                z-index: 10;
+            }
+
+            .logo-text {
+                font-weight: 800;
+                font-size: 20px;
+                letter-spacing: 0.5px;
+                color: #ffffff;
+            }
+
+            .logo-accent {
+                color: #3b82f6;
+            }
+
+            .user-status {
+                font-size: 13px;
+                color: #94a3b8;
+                display: flex;
+                align-items: center;
+                gap: 6px;
+            }
+
+            .status-dot {
+                width: 8px;
+                height: 8px;
+                background-color: #10b981;
+                border-radius: 50%;
+            }
+
+            /* Chat Thread */
+            .chat-messages {
+                flex: 1;
+                padding: 40px 15%;
+                overflow-y: auto;
+                display: flex;
+                flex-direction: column;
+                gap: 28px;
+                padding-bottom: 140px;
+            }
+
+            .message {
+                max-width: 85%;
+                padding: 18px 24px;
+                border-radius: 16px;
+                line-height: 1.6;
+                font-size: 15px;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            }
+
+            .user-bubble {
+                background-color: #1e293b;
+                color: #f8fafc;
+                align-self: flex-end;
+                border-bottom-right-radius: 4px;
+            }
+
+            .ai-bubble {
+                background-color: #0f172a;
+                color: #e2e8f0;
+                align-self: flex-start;
+                border-bottom-left-radius: 4px;
+                border: 1px solid #1e293b;
+            }
+
+            /* Property Card */
+            .property-card {
+                background-color: #1e293b;
+                border-left: 4px solid #3b82f6;
+                border-radius: 8px;
+                padding: 20px;
+                margin-top: 16px;
+                display: flex;
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .card-title {
+                font-weight: 600;
+                color: #60a5fa;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                font-size: 16px;
+            }
+
+            /* PDF Link Asset */
+            .pdf-link {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                background-color: rgba(239, 68, 68, 0.1);
+                border: 1px dashed rgba(239, 68, 68, 0.4);
+                padding: 12px 16px;
+                border-radius: 8px;
+                text-decoration: none;
+                color: #f8fafc;
+                transition: all 0.2s ease;
+            }
+
+            .pdf-link:hover {
+                background-color: rgba(239, 68, 68, 0.15);
+                border-color: #ef4444;
+            }
+
+            .pdf-icon {
+                color: #ef4444;
+                font-size: 24px;
+            }
+
+            /* Action Buttons */
+            .btn {
+                padding: 12px 20px;
+                border-radius: 8px;
+                border: none;
+                font-weight: 600;
+                font-size: 14px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+                transition: all 0.2s ease;
+                width: 100%;
+            }
+
+            .btn-map {
+                background-color: #3b82f6;
+                color: white;
+            }
+
+            .btn-map:hover {
+                background-color: #2563eb;
+            }
+
+            /* Enhanced Input Area */
+            .input-area {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                padding: 24px 15% 16px 15%;
+                background: linear-gradient(
+                    180deg,
+                    transparent 0%,
+                    #0f172a 25%,
+                    #0f172a 100%
+                );
+                z-index: 5;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .input-box-wrapper {
+                width: 100%;
+                background-color: #1e293b;
+                border: 1px solid #334155;
+                border-radius: 16px;
+                padding: 10px 14px;
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+                transition:
+                    border-color 0.2s ease,
+                    box-shadow 0.2s ease;
+            }
+
+            .input-box-wrapper:focus-within {
+                border-color: #3b82f6;
+                box-shadow: 0 10px 30px rgba(59, 130, 246, 0.15);
+            }
+
+            .icon-action {
+                background: none;
+                border: none;
+                color: #94a3b8;
+                font-size: 18px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 6px;
+                border-radius: 6px;
+                transition: all 0.2s;
+            }
+
+            .icon-action:hover {
+                color: #f8fafc;
+                background-color: #334155;
+            }
+
+            .input-box-wrapper input {
+                flex: 1;
+                background: none;
+                border: none;
+                color: white;
+                font-size: 15px;
+                outline: none;
+                padding: 6px 0;
+            }
+
+            .input-box-wrapper input::placeholder {
+                color: #64748b;
+            }
+
+            .send-btn {
+                background-color: #3b82f6;
+                color: white;
+                border: none;
+                border-radius: 10px;
+                width: 36px;
+                height: 36px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                transition: background 0.2s;
+                font-size: 14px;
+            }
+
+            .send-btn:hover {
+                background-color: #2563eb;
+            }
+
+            .disclaimer-text {
+                font-size: 11px;
+                color: #64748b;
+                margin-top: 12px;
+                text-align: center;
+                letter-spacing: 0.2px;
+            }
+
+            /* Sliding Side Panel */
+            .side-panel {
+                width: 0;
+                background-color: #020617;
+                border-left: 0px solid #1e293b;
+                display: flex;
+                flex-direction: column;
+                transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                overflow: hidden;
+            }
+
+            .side-panel.open {
+                width: 45%;
+                border-left: 1px solid #1e293b;
+                box-shadow: -10px 0 30px rgba(0, 0, 0, 0.3);
+            }
+
+            .panel-header {
+                padding: 16px 24px;
+                background-color: #0f172a;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                border-bottom: 1px solid #1e293b;
+                min-width: 300px;
+            }
+
+            .panel-title {
+                font-size: 15px;
+                font-weight: 600;
+                color: #10b981;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+            .close-btn {
+                background: none;
+                border: none;
+                color: #64748b;
+                font-size: 24px;
+                cursor: pointer;
+                transition: color 0.2s;
+                line-height: 1;
+            }
+
+            .close-btn:hover {
+                color: #f8fafc;
+            }
+
+            /* Map Canvas */
+            .map-canvas {
+                flex: 1;
+                background: #1e293b;
+                position: relative;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-image: radial-gradient(#334155 1px, transparent 1px);
+                background-size: 24px 24px;
+                min-width: 300px;
+            }
+
+            .map-hud {
+                position: absolute;
+                top: 20px;
+                left: 20px;
+                background: rgba(15, 23, 42, 0.9);
+                padding: 8px 12px;
+                border-radius: 6px;
+                font-size: 12px;
+                border: 1px solid #334155;
+                color: #cbd5e1;
+                backdrop-filter: blur(4px);
+            }
+
+            /* Mock Highlight */
+            .gis-polygon {
+                width: 160px;
+                height: 120px;
+                border: 2px solid #38bdf8;
+                background-color: rgba(56, 189, 248, 0.15);
+                border-radius: 4px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 12px;
+                color: #38bdf8;
+                font-weight: 700;
+                box-shadow: 0 0 24px rgba(56, 189, 248, 0.3);
+                transform: skewX(-5deg) skewY(5deg);
+            }
+
+            /* Scrollbar styling */
+            ::-webkit-scrollbar {
+                width: 8px;
+            }
+            ::-webkit-scrollbar-track {
+                background: #0f172a;
+            }
+            ::-webkit-scrollbar-thumb {
+                background: #334155;
+                border-radius: 4px;
+            }
+            ::-webkit-scrollbar-thumb:hover {
+                background: #475569;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="app-wrapper">
+            <div class="chat-section">
+                <header>
+                    <div class="logo-text">
+                        BYGGSVAR<span class="logo-accent">.AI</span>
+                    </div>
+                    <div class="user-status">
+                        <div class="status-dot"></div>
+                        Aktiv Økt
+                    </div>
+                </header>
+
+                <div class="chat-messages">
+                    <div class="message user-bubble">
+                        Finn reguleringsbestemmelser og sjekk flomsone for
+                        Sjøgata 63, Oslo.
+                    </div>
+
+                    <div class="message ai-bubble">
+                        Jeg har lokalisert eiendommen
+                        <strong>Sjøgata 63, 1560 Oslo</strong> (GNR/BNR:
+                        15/133). <br /><br />
+                        Eiendommen faller inn under reguleringsformål for
+                        boligbebyggelse, men er underlagt særskilte
+                        sikkerhetskrav på grunn av en registrert historisk
+                        flomsone.
+
+                        <div class="property-card">
+                            <div class="card-title">
+                                📍 Eiendomskontekst Klar
+                            </div>
+
+                            <a
+                                href="#"
+                                class="pdf-link"
+                                onclick="
+                                    alert('Laster ned PDF...');
+                                    return false;
+                                "
+                            >
+                                <span class="pdf-icon">📄</span>
+                                <div>
+                                    <div
+                                        style="
+                                            font-weight: 600;
+                                            font-size: 14px;
+                                        "
+                                    >
+                                        Reguleringsbestemmelser_10503.pdf
+                                    </div>
+                                    <div
+                                        style="
+                                            font-size: 12px;
+                                            color: #94a3b8;
+                                            margin-top: 4px;
+                                        "
+                                    >
+                                        Offisielt dokument fra kommunen
+                                    </div>
+                                </div>
+                            </a>
+
+                            <button
+                                class="btn btn-map"
+                                onclick="toggleSidePanel()"
+                            >
+                                🗺️ Åpne Interaktivt Kartlag
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="message ai-bubble" style="margin-top: -12px">
+                        Dokumentet er analysert. Spør meg gjerne:
+                        <em
+                            >"Hva er maksimal utnyttelsesgrad (BYA) for denne
+                            tomten?"</em
+                        >
+                    </div>
+                </div>
+
+                <div class="input-area">
+                    <div class="input-box-wrapper">
+                        <button class="icon-action" title="Legg ved dokument">
+                            📎
+                        </button>
+                        <input
+                            type="text"
+                            placeholder="Spør om regelverk, adresser, eller eiendommer..."
+                        />
+                        <!-- <button class="icon-action" title="Bruk mikrofon">
+                            🎤
+                        </button> -->
+                        <button class="send-btn" title="Send melding">➤</button>
+                    </div>
+                    <div class="disclaimer-text">
+                        BYGGSVAR AI kan gjøre feil. Sjekk alltid viktige
+                        opplysninger med kommunens offisielle systemer.
+                    </div>
+                </div>
+            </div>
+
+            <div class="side-panel" id="sideMapPanel">
+                <div class="panel-header">
+                    <div class="panel-title">
+                        <span>●</span> Esri ArcGIS Visning
+                    </div>
+                    <button class="close-btn" onclick="toggleSidePanel()">
+                        ×
+                    </button>
+                </div>
+
+                <div class="map-canvas">
+                    <div class="map-hud">
+                        📍 Sjøgata 63 | 🔍 1:2,263 | 📑 Lag: Flomsone,
+                        Reguleringsplan
+                    </div>
+                    <div class="gis-polygon">GNR/BNR 15/133</div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function toggleSidePanel() {
+                const panel = document.getElementById("sideMapPanel");
+                panel.classList.toggle("open");
+            }
+        </script>
+    </body>
+</html>
